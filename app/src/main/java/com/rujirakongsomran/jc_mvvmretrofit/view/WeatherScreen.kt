@@ -24,6 +24,7 @@ import com.rujirakongsomran.jc_mvvmretrofit.ui.theme.LightGray
 import com.rujirakongsomran.jc_mvvmretrofit.model.Weather
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 @Composable
 fun WeatherScreen(weather: Weather) {
@@ -55,7 +56,7 @@ fun MainInfo(weather: Weather) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "${weather.main.temp} °C",
+            text = "${weather.main.temp.roundToInt()}°C",
             color = DarkBlue,
             fontSize = 48.sp,
             fontWeight = FontWeight.Medium
