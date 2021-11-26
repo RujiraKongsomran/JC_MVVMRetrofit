@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,8 @@ import com.rujirakongsomran.jc_mvvmretrofit.ui.theme.DarkBlue
 import com.rujirakongsomran.jc_mvvmretrofit.ui.theme.DarkLightGray
 import com.rujirakongsomran.jc_mvvmretrofit.ui.theme.LightGray
 import com.rujirakongsomran.jc_mvvmretrofit.model.Weather
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun WeatherScreen(weather: Weather) {
@@ -52,10 +55,10 @@ fun MainInfo(weather: Weather) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "11°C",
+            text = "${weather.main.temp} °C",
             color = DarkBlue,
             fontSize = 48.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Medium
         )
         Text(
             text = weather.name,
@@ -65,7 +68,7 @@ fun MainInfo(weather: Weather) {
             modifier = Modifier.padding(top = 16.dp)
         )
         Text(
-            text = "Rainy to partly cloudy.\nWinds WSW at 10 to 15 km/h",
+            text = "${weather.weather[0].main}\n${weather.weather[0].description}",
             color = Color.Gray,
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
@@ -88,15 +91,15 @@ fun InfoTable(weather: Weather) {
             InfoItem(
                 iconRes = com.rujirakongsomran.jc_mvvmretrofit.R.drawable.humidity,
                 title = "Humidity",
-                subtitle = "85%",
+                subtitle = "${weather.main.humidity} %",
                 modifier = Modifier.weight(
                     1f
                 )
             )
             InfoItem(
-                iconRes = com.rujirakongsomran.jc_mvvmretrofit.R.drawable.sun,
-                title = "UV Index",
-                subtitle = "2 of 10",
+                iconRes = com.rujirakongsomran.jc_mvvmretrofit.R.drawable.wind,
+                title = "Wind",
+                subtitle = "${weather.wind.speed}",
                 modifier = Modifier.weight(
                     1f
                 )
@@ -110,7 +113,10 @@ fun InfoTable(weather: Weather) {
             InfoItem(
                 iconRes = com.rujirakongsomran.jc_mvvmretrofit.R.drawable.sunrise,
                 title = "Sunrise",
-                subtitle = "7:30 AM",
+                subtitle = SimpleDateFormat(
+                    "hh:mm a",
+                    Locale.ENGLISH
+                ).format(Date(weather.sys.sunrise * 1000)),
                 modifier = Modifier.weight(
                     1f
                 )
@@ -118,7 +124,10 @@ fun InfoTable(weather: Weather) {
             InfoItem(
                 iconRes = com.rujirakongsomran.jc_mvvmretrofit.R.drawable.sunset,
                 title = "Sunset",
-                subtitle = "4:28 PM",
+                subtitle = SimpleDateFormat(
+                    "hh:mm a",
+                    Locale.ENGLISH
+                ).format(Date(weather.sys.sunset * 1000)),
                 modifier = Modifier.weight(
                     1f
                 )
